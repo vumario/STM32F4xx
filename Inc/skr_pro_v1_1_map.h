@@ -25,10 +25,6 @@
 #include "trinamic\tmc5160.h"
 #endif
 
-#if SPI_PORT == 1
-#error Port SPI1 is not supported!
-#endif
-
 #define BOARD_NAME "BTT SKR PRO v1.1"
 
 #define HAS_BOARD_INIT
@@ -212,7 +208,7 @@ void board_init (void);
 #define TRINAMIC_CS_PORT GPIOB
 #define TRINAMIC_CS_PIN  7
 #define TRINAMIC_CS_BIT  (1<<TRINAMIC_CS_PIN)
-#define SPI_PORT         1 // GPIOA, SCK_PIN = 5, MISO_PIN = 6, MOSI_PIN = 7
+#define SPI_PORT         2 // GPIOA, SCK_PIN = 5, MISO_PIN = 6, MOSI_PIN = 7
 #endif
 
 //

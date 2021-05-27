@@ -31,6 +31,10 @@
 #include "grbl/protocol.h"
 #include "grbl/settings.h"
 
+#if SPI_PORT == 1
+#error SPI_PORT 1 is not supported!
+#endif
+
 #if TRINAMIC_ENABLE == 2130 || TRINAMIC_ENABLE == 5160
 
 static axes_signals_t tmc;
