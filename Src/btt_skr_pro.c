@@ -167,6 +167,11 @@ void TMC_SPI_DriverInit (axes_signals_t axisflags)
 void board_init (void)
 {
 
+    GPIO_InitTypeDef GPIO_Init = {0};
+
+    GPIO_Init.Speed = GPIO_SPEED_FREQ_HIGH;
+    GPIO_Init.Mode = GPIO_MODE_OUTPUT_PP;
+
 #if TRINAMIC_ENABLE == 2130 || TRINAMIC_ENABLE == 5160
 
     trinamic_driver_if_t driver = {
