@@ -17,8 +17,12 @@
   along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#if TRINAMIC_ENABLE
-#error Trinamic plugin not supported!
+#if TRINAMIC_ENABLE == 2130
+#include "trinamic\tmc2130.h"
+#endif
+
+#if TRINAMIC_ENABLE == 5160
+#include "trinamic\tmc5160.h"
 #endif
 
 #if SPI_PORT == 1
@@ -26,6 +30,11 @@
 #endif
 
 #define BOARD_NAME "BTT SKR PRO v1.1"
+
+#define HAS_BOARD_INIT
+//#define SPINDLE_SYNC_ENABLE
+
+void board_init (void);
 
 #define I2C1_ALT_PINMAP // GPIOB, SCL_PIN = 6, SDA_PIN = 7
 
@@ -198,3 +207,12 @@
 #define SD_CS_BIT   (1<<SD_CS_PIN)
 #define SPI_PORT    2 // GPIOB, SCK_PIN = 13, MISO_PIN = 14, MOSI_PIN = 15 (EXP2 Header)
 #endif
+
+#if TRINAMIC_ENABLE
+#define TRINAMIC_CS_PORT GPIOB
+#define TRINAMIC_CS_PIN  7
+#define TRINAMIC_CS_BIT  (1<<TRINAMIC_CS_PIN)
+#define SPI_PORT         1 // GPIOA, SCK_PIN = 5, MISO_PIN = 6, MOSI_PIN = 7
+#endif
+
+//
