@@ -174,17 +174,17 @@ void board_init (void);
 
 // Define user-control controls (cycle start, reset, feed hold) input pins.
 #define CONTROL_RESET_PORT          GPIOG
-#define CONTROL_RESET_PIN           4                            // E0 Limit
+#define CONTROL_RESET_PIN           4                            // EXP1 PG4
 #define CONTROL_RESET_BIT           (1<<CONTROL_RESET_PIN)
 #define CONTROL_FEED_HOLD_PORT      GPIOD
-#define CONTROL_FEED_HOLD_PIN       11                           // E1 Limit
+#define CONTROL_FEED_HOLD_PIN       11                           // EXP1 PD11
 #define CONTROL_FEED_HOLD_BIT       (1<<CONTROL_FEED_HOLD_PIN)
 #define CONTROL_CYCLE_START_PORT    GPIOG
-#define CONTROL_CYCLE_START_PIN     2                            // E2 Limit
+#define CONTROL_CYCLE_START_PIN     2                            // EXP1 PG2
 #define CONTROL_CYCLE_START_BIT     (1<<CONTROL_CYCLE_START_PIN)
 #ifdef ENABLE_SAFETY_DOOR_INPUT_PIN
 #define CONTROL_SAFETY_DOOR_PORT    GPIOG
-#define CONTROL_SAFETY_DOOR_PIN     6                            // EXP1 PG4
+#define CONTROL_SAFETY_DOOR_PIN     6                            // EXP1 PG6
 #define CONTROL_SAFETY_DOOR_BIT     (1<<CONTROL_SAFETY_DOOR_PIN)
 #define CONTROL_MASK                (CONTROL_RESET_BIT|CONTROL_FEED_HOLD_BIT|CONTROL_CYCLE_START_BIT|CONTROL_SAFETY_DOOR_BIT)
 #else
@@ -208,7 +208,7 @@ void board_init (void);
 #define TRINAMIC_CS_PORT GPIOB
 #define TRINAMIC_CS_PIN  7
 #define TRINAMIC_CS_BIT  (1<<TRINAMIC_CS_PIN)
-#define SPI_PORT         2 // GPIOA, SCK_PIN = 5, MISO_PIN = 6, MOSI_PIN = 7
+#define SPI_PORT         2 // GPIOB, SCK_PIN = 13, MISO_PIN = 14, MOSI_PIN = 15 (EXP2 Header)
 #endif
 
 //
