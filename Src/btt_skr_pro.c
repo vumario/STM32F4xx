@@ -168,7 +168,7 @@ void TMC_SPI_DriverInit (axes_signals_t axisflags)
 #endif
 
 
-void board_init (void)
+void board_init (pin_group_pins_t *aux_inputs, pin_group_pins_t *aux_outputs)
 {
 
     GPIO_InitTypeDef GPIO_Init = {0};
