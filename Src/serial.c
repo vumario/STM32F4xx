@@ -237,13 +237,12 @@ void serial2Init (uint32_t baud_rate)
     GPIO_InitStructure.Pull = GPIO_NOPULL;
     GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 
-    __HAL_RCC_GPIOA_CLK_ENABLE();
-
 #if defined(NUCLEO_F411) || defined(NUCLEO_F446)
 
 #define UART2 USART1
 #define UART2_IRQHandler USART1_IRQHandler
 
+  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_USART1_CLK_ENABLE();
 
   GPIO_InitStructure.Pin = GPIO_PIN_9|GPIO_PIN_10;
@@ -257,11 +256,31 @@ void serial2Init (uint32_t baud_rate)
   HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(USART1_IRQn);
 
+#elif defined(BOARD_SKR_PRO_1_1)
+
+#define UART2 USART3
+#define UART2_IRQHandler USART3_IRQHandler
+
+  __HAL_RCC_GPIOD_CLK_ENABLE();
+  __HAL_RCC_USART3_CLK_ENABLE();
+
+  GPIO_InitStructure.Pin = GPIO_PIN_8|GPIO_PIN_9;
+  GPIO_InitStructure.Alternate = GPIO_AF7_USART3;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+  UART2->CR1 = USART_CR1_RE|USART_CR1_TE;
+  UART2->BRR = UART_BRR_SAMPLING16(HAL_RCC_GetPCLK1Freq(), baud_rate);
+  UART2->CR1 |= (USART_CR1_UE|USART_CR1_RXNEIE);
+
+  HAL_NVIC_SetPriority(USART3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(USART3_IRQn);
+
 #else
 
 #define UART2 USART2
 #define UART2_IRQHandler USART2_IRQHandler
 
+  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_USART2_CLK_ENABLE();
 
   GPIO_InitStructure.Pin = GPIO_PIN_2|GPIO_PIN_3;

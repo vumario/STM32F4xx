@@ -1154,6 +1154,10 @@
                                     <listOptionValue builtIn="false" value="HSE_VALUE=8000000"/>
                                     									
                                     <listOptionValue builtIn="false" value="EEPROM_ENABLE=2"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="SPINDLE_HUANYANG=1"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="SPINDLE_RPM_CONTROLLED"/>
                                     								
                                 </option>
                                 								
