@@ -153,6 +153,8 @@
     #error EEPROM plugin not supported!
   #endif
   #include "cnc3040_map.h"
+#elif defined(BOARD_BLACKPILL)
+  #include "blackpill_map.h"
 #elif defined(BOARD_SKR_PRO_1_1)
   #include "skr_pro_v1_1_map.h"
 #elif defined(BOARD_PROTONEER_3XX)
@@ -172,10 +174,8 @@
 #endif
 
 
-#if defined(BOARD_PROTONEER_3XX) || defined(BOARD_GENERIC_UNO) || defined(BOARD_MORPHO_CNC) || defined(BOARD_MORPHO_DAC_CNC)
-#if USB_SERIAL_CDC
+#if defined(IS_NUCLEO_BOB) && USB_SERIAL_CDC
 #error "Nucleo based boards does not support USB CDC communication!"
-#endif
 #endif
 
 // Adjust STEP_PULSE_LATENCY to get accurate step pulse length when required, e.g if using high step rates.
@@ -205,16 +205,12 @@
 #define SERIAL2_MOD
 #endif
 
-#ifndef SPI_PORT
-#define SPI_PORT 1
+#ifndef I2C_PORT
+#define I2C_PORT 2 // GPIOB, SCL_PIN = 10, SDA_PIN = 11
 #endif
 
-#if EEPROM_ENABLE|| KEYPAD_ENABLE || (TRINAMIC_ENABLE && TRINAMIC_I2C)
-  #if defined(NUCLEO_F411) || defined(NUCLEO_F446) || defined(BOARD_SKR_PRO_1_1)
-    #define I2C_PORT 1 // GPIOB, SCL_PIN = 8, SDA_PIN = 9
-  #else
-    #define I2C_PORT 2 // GPIOB, SCL_PIN = 10, SDA_PIN = 11
-  #endif
+#ifndef SPI_PORT
+#define SPI_PORT 1
 #endif
 
 #if TRINAMIC_ENABLE
@@ -244,11 +240,20 @@
 #ifndef X_STEP_PORT
 #define X_STEP_PORT STEP_PORT
 #endif
+#ifndef X2_STEP_PORT
+#define X2_STEP_PORT STEP_PORT
+#endif
 #ifndef Y_STEP_PORT
 #define Y_STEP_PORT STEP_PORT
 #endif
+#ifndef Y2_STEP_PORT
+#define Y2_STEP_PORT STEP_PORT
+#endif
 #ifndef Z_STEP_PORT
 #define Z_STEP_PORT STEP_PORT
+#endif
+#ifndef Z2_STEP_PORT
+#define Z2_STEP_PORT STEP_PORT
 #endif
 #ifndef A_STEP_PORT
 #define A_STEP_PORT STEP_PORT
@@ -263,12 +268,22 @@
 #ifndef X_DIRECTION_PORT
 #define X_DIRECTION_PORT DIRECTION_PORT
 #endif
+#ifndef X2_DIRECTION_PORT
+#define X2_DIRECTION_PORT DIRECTION_PORT
+#endif
 #ifndef Y_DIRECTION_PORT
 #define Y_DIRECTION_PORT DIRECTION_PORT
+#endif
+#ifndef Y2_DIRECTION_PORT
+#define Y2_DIRECTION_PORT DIRECTION_PORT
 #endif
 #ifndef Z_DIRECTION_PORT
 #define Z_DIRECTION_PORT DIRECTION_PORT
 #endif
+#ifndef Z2_DIRECTION_PORT
+#define Z2_DIRECTION_PORT DIRECTION_PORT
+#endif
+
 #ifndef A_DIRECTION_PORT
 #define A_DIRECTION_PORT DIRECTION_PORT
 #endif
@@ -282,11 +297,20 @@
 #ifndef X_LIMIT_PORT
 #define X_LIMIT_PORT LIMIT_PORT
 #endif
+#ifndef X2_LIMIT_PORT
+#define X2_LIMIT_PORT LIMIT_PORT
+#endif
 #ifndef Y_LIMIT_PORT
 #define Y_LIMIT_PORT LIMIT_PORT
 #endif
+#ifndef Y2_LIMIT_PORT
+#define Y2_LIMIT_PORT LIMIT_PORT
+#endif
 #ifndef Z_LIMIT_PORT
 #define Z_LIMIT_PORT LIMIT_PORT
+#endif
+#ifndef Z2_LIMIT_PORT
+#define Z2_LIMIT_PORT LIMIT_PORT
 #endif
 #ifndef A_LIMIT_PORT
 #define A_LIMIT_PORT LIMIT_PORT
@@ -296,6 +320,18 @@
 #endif
 #ifndef C_LIMIT_PORT
 #define C_LIMIT_PORT LIMIT_PORT
+#endif
+
+#ifndef STEP_PINMODE
+#define STEP_PINMODE PINMODE_OUTPUT
+#endif
+
+#ifndef DIRECTION_PINMODE
+#define DIRECTION_PINMODE PINMODE_OUTPUT
+#endif
+
+#ifndef STEPPERS_DISABLE_PINMODE
+#define STEPPERS_DISABLE_PINMODE PINMODE_OUTPUT
 #endif
 
 #ifndef RESET_PORT
@@ -326,6 +362,7 @@ typedef struct {
     GPIO_TypeDef *port;
     uint8_t pin;
     pin_group_t group;
+    pin_mode_t mode;
 } output_signal_t;
 
 typedef struct {
